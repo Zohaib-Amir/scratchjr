@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 //////////////////////////////////////
 //  General UI Layout
 /////////////////////////////////////
@@ -427,6 +428,7 @@ export default class UI {
                 //(document.forms["projectname"]["myproject"]).focus();
             }, 500);
         }
+        ScratchJr.hideDirectionControls();
     }
 
     static formatTime (unixtime) {
@@ -461,6 +463,7 @@ export default class UI {
         gn('sharebuttons').style.visibility = 'hidden';
         gn('parentsection').style.visibility = 'visible';
         infoBoxOpen = false;
+        ScratchJr.showDirectionControls();
     }
 
     //////////////////////////////////////

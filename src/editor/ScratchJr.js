@@ -62,6 +62,8 @@ let autoSaveSetInterval = null;
 
 let onBackButtonCallback = [];
 
+let customBlockDirection = 'left';
+
 export default class ScratchJr {
     static get workingCanvas () {
         return workingCanvas;
@@ -174,6 +176,35 @@ export default class ScratchJr {
 
     static get onBackButtonCallback () {
         return onBackButtonCallback;
+    }
+
+    static get customBlockDirection () {
+        return customBlockDirection;
+    }
+
+    static toggleDirectionControls (visible) {
+        if (isAndroid) {
+            AndroidInterface.changeDirectionKeysVisibility(visible);
+        }
+    }
+
+    static setCustomBlockDirection (direction) {
+        if( isAndroid ) {
+            customBlockDirection = direction;
+            AndroidInterface.direction_changed(direction);
+        }
+    }
+
+    static showDirectionControls () {
+        if( isAndroid ) {
+            AndroidInterface.show_direction_controls();
+        }
+    }
+
+    static hideDirectionControls () {
+        if( isAndroid ) {
+            AndroidInterface.hide_direction_controls();
+        }
     }
 
     static appinit (v) {
@@ -527,6 +558,8 @@ export default class ScratchJr {
         UI.enterFullScreen();
         OS.analyticsEvent('editor', 'full_screen_entered');
         document.body.style.background = 'black';
+        ScratchJr.hideDirectionControls();
+
     }
 
     static quitFullScreen (e) {
@@ -539,6 +572,9 @@ export default class ScratchJr {
         onBackButtonCallback.pop();
         OS.analyticsEvent('editor', 'full_screen_exited');
         document.body.style.background = 'white';
+        ScratchJr.showDirectionControls();
+
+
     }
 
     /////////////////////////////////////////

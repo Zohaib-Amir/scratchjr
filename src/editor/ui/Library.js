@@ -60,6 +60,7 @@ export default class Library {
 
         gn('library_paintme').style.opacity = 1;
         gn('library_paintme').ontouchstart = Library.editResource;
+        ScratchJr.hideDirectionControls();
 
         // Set the back button callback
         ScratchJr.onBackButtonCallback.push(function () {
@@ -84,6 +85,7 @@ export default class Library {
         libFrame.className = 'libframe disappear';
         document.body.scrollTop = 0;
         frame.style.display = 'block';
+        ScratchJr.showDirectionControls();
         ScratchJr.editorEvents();
         ScratchJr.onBackButtonCallback.pop();
     }

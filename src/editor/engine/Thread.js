@@ -92,6 +92,7 @@ export default class Thread {
         case 'back':
         case 'forward':
         case 'up':
+        case 'move':
             if ((this.distance > -1) && !stopMine) {
                 var vector = Vector.scale(this.vector, this.distance % 24);
                 s.setPos(s.xcoor + vector.x, s.ycoor + vector.y);

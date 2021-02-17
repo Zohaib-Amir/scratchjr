@@ -176,7 +176,7 @@ export default class BlockSpecs {
 
     static setupPalettesDef () {
         return [['onflag', 'onclick', 'ontouch', 'onmessage', 'message'],
-            ['forward', 'back', 'up', 'down', 'right', 'left', 'hop', 'home'],
+            ['forward', 'back', 'up', 'down', 'right', 'left', 'hop', 'home', 'move'],
             ['say', 'space', 'grow', 'shrink', 'same', 'space', 'hide', 'show'],
             [],
             ['wait', 'stopmine', 'setspeed', 'repeat'],
@@ -232,7 +232,8 @@ export default class BlockSpecs {
                 BlockSpecs.blueCmd, null, null, BlockSpecs.blueCmdH, null, null, BlockSpecs.cmdS],
             'hop': ['hop', BlockSpecs.getImageFrom('assets/blockicons/Hop', 'svg'),
                 BlockSpecs.blueCmd, 'n', 2, BlockSpecs.blueCmdH, -15, 15, BlockSpecs.cmdS],
-
+            'move': ['move', BlockSpecs.getImageFrom('assets/blockicons/Move', 'svg'),
+                BlockSpecs.blueCmd, 'n', 2, BlockSpecs.blueCmdH, -20, 20, BlockSpecs.cmdS],
 
             'wait': ['wait', BlockSpecs.getImageFrom('assets/blockicons/Wait', 'svg'),
                 BlockSpecs.orangeCmd, 'n', 10, BlockSpecs.orangeCmdH, 0, 50, BlockSpecs.cmdS],
@@ -301,6 +302,7 @@ export default class BlockSpecs {
             'right': Localization.localize('BLOCK_DESC_TURN_RIGHT'),
             'hop': Localization.localize('BLOCK_DESC_HOP'),
             'wait': Localization.localize('BLOCK_DESC_WAIT'),
+            'move': Localization.localize('BLOCK_DESC_MOVE'),
             'setspeed': Localization.localize('BLOCK_DESC_SET_SPEED'),
             'stopmine': Localization.localize('BLOCK_DESC_STOP', {
                 CHARACTER_NAME: spr.name ? spr.name : spr.str

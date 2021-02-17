@@ -1,17 +1,72 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context="org.scratchjr.android.ScratchJrActivity" >
+    tools:context="org.scratchjr.android.ScratchJrActivity">
 
     <WebView
         android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:overScrollMode="never"
-       />
-    
-</RelativeLayout> 
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/upButton"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="52dp"
+        android:text="UP"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Button
+        android:id="@+id/downButton"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="DOWN"
+        app:layout_constraintBottom_toBottomOf="@+id/upButton"
+        app:layout_constraintStart_toEndOf="@+id/upButton"
+        app:layout_constraintTop_toTopOf="@+id/upButton" />
+
+    <Button
+        android:id="@+id/leftButton"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="LEFT"
+        app:layout_constraintStart_toStartOf="@+id/upButton"
+        app:layout_constraintTop_toBottomOf="@+id/upButton"
+        />
+
+    <Button
+        android:id="@+id/rightButton"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="RIGHT"
+        app:layout_constraintStart_toEndOf="@+id/leftButton"
+        app:layout_constraintTop_toBottomOf="@+id/upButton"
+        />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/directionGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="upButton, leftButton, rightButton, downButton" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,7 @@ export default class Prims {
         Prims.table.down = Prims.Down;
         Prims.table.left = Prims.Left;
         Prims.table.right = Prims.Right;
+        Prims.table.move = Prims.Move;
         Prims.table.home = Prims.Home;
         Prims.table.setspeed = Prims.SetSpeed;
         Prims.table.message = Prims.Message;
@@ -299,6 +300,8 @@ export default class Prims {
         Prims.moveAtSpeed(strip);
     }
 
+
+
     static Forward (strip) {
         var s = strip.spr;
         var num = Number(strip.thisblock.getArgValue()) * 24;
@@ -569,6 +572,23 @@ export default class Prims {
             strip.thisblock = strip.thisblock.next;
         }
         strip.waitTimer = tinterval;
+    }
+
+    static Move (strip) {
+        switch(ScratchJr.customBlockDirection) {
+        case 'left':
+            Prims.Back(strip);
+            break;
+        case 'right':
+            Prims.Forward(strip);
+            break;
+        case 'up':
+            Prims.Up(strip);
+            break;
+        case 'down':
+            Prims.Down(strip);
+            break;
+        }
     }
 
     static Message (strip) {

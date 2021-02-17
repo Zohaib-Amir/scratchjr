@@ -15,6 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Group;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.util.Base64;
@@ -32,6 +34,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -68,7 +71,9 @@ public class ScratchJrActivity
     private static final String INDEX_PAGE_URL = "file:///android_asset/HTML5/index.html";
 
     /** Container containing the web view */
-    private RelativeLayout _container;
+    private ConstraintLayout _container;
+    private Group _directionGroup;
+    private Button _upBtn, _leftBtn, _rightBtn, _downBtn;
 
     /** Web browser containing the Scratch Jr. HTML5 webapp */
     private WebView _webView;
@@ -121,7 +126,7 @@ public class ScratchJrActivity
         _soundRecorderManager = new SoundRecorderManager(this);
         setContentView(R.layout.activity_scratch_jr);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        _container = (RelativeLayout) findViewById(R.id.container);
+        _container = findViewById(R.id.container);
         _webView = (WebView) findViewById(R.id.webview);
         _webView.setBackgroundColor(0x00000000);
         _webView.clearCache(true);
@@ -173,6 +178,43 @@ public class ScratchJrActivity
             }
         });
         requestPermissions();
+
+        _directionGroup = findViewById(R.id.directionGroup);
+
+        _leftBtn = findViewById(R.id.leftButton);
+        _rightBtn = findViewById(R.id.rightButton);
+        _upBtn = findViewById(R.id.upButton);
+        _downBtn = findViewById(R.id.downButton);
+
+
+        _leftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setDirection("left");
+            }
+        });
+
+        _rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setDirection("right");
+            }
+        });
+
+        _upBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setDirection("up");
+            }
+        });
+
+        _downBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setDirection("down");
+            }
+        });
+
     }
 
      /*
@@ -345,7 +387,7 @@ public class ScratchJrActivity
         runJavaScript("OS.loadProjectFromSjr('" + base64Project + "');");
     }
 
-    public RelativeLayout getContainer() {
+    public ConstraintLayout getContainer() {
         return _container;
     }
 
@@ -433,6 +475,12 @@ public class ScratchJrActivity
                 // Track page load
                 String[] parts = url.split("/");
                 String page = parts[parts.length - 1].split("\\?")[0];
+                Log.d("ZEE", "PAGE " + page );
+                if(page.equals("editor.html")) {
+                    toggleDirectionKeysVisibility(true);
+                } else {
+                    toggleDirectionKeysVisibility(false);
+                }
                 _FirebaseAnalytics.setCurrentScreen((Activity) view.getContext(), page, null);
             }
         });
@@ -454,8 +502,16 @@ public class ScratchJrActivity
         });
     }
 
+    public void toggleDirectionKeysVisibility(boolean visible) {
+        _directionGroup.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     public void createNewProject() {
         runJavaScript("Home.createNewProject()");
+    }
+
+    public void setDirection(String direction) {
+        runJavaScript(String.format("ScratchJr.setCustomBlockDirection(\"%s\")", direction));
     }
 
     /**
@@ -537,6 +593,7 @@ public class ScratchJrActivity
     public void translateAndScaleRectToContainerCoords(RectF rect, float devicePixelRatio) {
         float wx = _webView.getX();
         float wy = _webView.getY();
+        Log.d("ZEE", "SCALE " + devicePixelRatio);
         rect.set(wx + rect.left * devicePixelRatio, wy + rect.top * devicePixelRatio,
             wx + rect.right * devicePixelRatio, wy + rect.bottom * devicePixelRatio);
     }

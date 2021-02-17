@@ -28,6 +28,8 @@ import android.webkit.JavascriptInterface;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 /**
  * The methods in this inner class are exposed directly to JavaScript in the HTML5 pages
  * as AndroidInterface.
@@ -107,6 +109,37 @@ public class JavaScriptDirectInterface {
     public void audio_stop(int soundId) {
         SoundManager soundManager = _activity.getSoundManager();
         soundManager.stopSound(soundId);
+    }
+
+    @JavascriptInterface
+    public void direction_changed(String direction) {
+        Log.d("ZEE", "DIRECTION CHANGE CALLED " + direction);
+    }
+
+    @JavascriptInterface
+    public void changeDirectionKeysVisibility(boolean visible) {
+        _activity.toggleDirectionKeysVisibility(visible);
+    }
+
+    @JavascriptInterface
+    public void show_direction_controls() {
+        Log.d("ZEE", "SHOW CONTROLS");
+        _activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                _activity.toggleDirectionKeysVisibility(true);
+            }
+        });    }
+
+    @JavascriptInterface
+    public void hide_direction_controls() {
+        Log.d("ZEE", "HIDE CONTROLS");
+        _activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                _activity.toggleDirectionKeysVisibility(false);
+            }
+        });
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -490,7 +523,7 @@ public class JavaScriptDirectInterface {
                 _activity.translateAndScaleRectToContainerCoords(maskRect, devicePixelRatio);
                 scaleRectFromCenter(rect, scale);
                 scaleRectFromCenter(maskRect, scale);
-                RelativeLayout container = _activity.getContainer();
+                ConstraintLayout container = _activity.getContainer();
 
                 _cameraView = new CameraView(_activity, rect, scale * devicePixelRatio, true); // always start with front-facing camera
                 container.addView(_cameraView, new RelativeLayout.LayoutParams((int) (rect.width()), (int) (rect.height())));
@@ -519,7 +552,7 @@ public class JavaScriptDirectInterface {
     private void closeFeed() {
         _activity.runOnUiThread(new Runnable() {
             public void run() {
-                RelativeLayout container = _activity.getContainer();
+                ConstraintLayout container = _activity.getContainer();
                 if (_cameraView != null) {
                     container.removeView(_cameraView);
                     _cameraView = null;
