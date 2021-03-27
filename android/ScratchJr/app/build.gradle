@@ -58,7 +58,7 @@ task switchToFreeGA(type: Copy) {
 
 task generateWebpackBundle(type: Exec) {
     workingDir '../../../bin'
-    commandLine './bundle-compile.sh'
+    commandLine 'cmd', '/c', 'bash bundle-compile.sh'
 }
 
 class GenerateScratchJrPNGsTask extends DefaultTask {
@@ -74,12 +74,11 @@ class GenerateScratchJrPNGsTask extends DefaultTask {
     @TaskAction
     def go() {
         pngLibrary.mkdirs()
-        ant.exec(executable: "${binDir}/convert-svg-to-png.py",
+        ant.exec(executable: "cmd.exe",
             failOnError: true)
-        {
-            arg(value: "-i ${svgLibrary}/")
-            arg(value: "-o ${pngLibrary}/")
-        }
+            {
+                arg(path: "wsl ${binDir}/convert-svg-to-png.py -i \"${svgLibrary}/\" -o \"${pngLibrary}/\" /c")
+            }
     }
 }
 class CleanScratchJrResourcesTask extends DefaultTask {
